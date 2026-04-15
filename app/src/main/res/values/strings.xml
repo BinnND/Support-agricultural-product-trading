@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chợ nông sản sạch</string>
+
+    <!-- Home Buyer -->
+    <string name="hint_search">Tìm rau củ, trái cây, gạo...</string>
+    <string name="empty_products">Chưa có sản phẩm nào\nHãy thử tìm kiếm hoặc thay đổi danh mục</string>
+
+    <!-- Search -->
+    <string name="search_hint">Tìm kiếm sản phẩm...</string>
+
+    <!-- FAB -->
+    <string name="fab_cart">Giỏ hàng</string>
+
+    <!-- Empty states -->
+    <string name="empty_cart">Giỏ hàng trống</string>
+    <string name="empty_orders">Chưa có đơn hàng nào</string>
+    <string name="empty_my_products">Bạn chưa có sản phẩm nào\nNhấn + để đăng bán ngay</string>
+
+    <!-- Common -->
+    <string name="loading">Đang tải...</string>
+    <string name="error_network">Không có kết nối mạng</string>
+</resources>

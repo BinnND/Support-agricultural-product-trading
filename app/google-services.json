@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "445939527254",
+    "project_id": "hotrogiaodichnongsansach",
+    "storage_bucket": "hotrogiaodichnongsansach.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445939527254:android:c7bc4a38d79f1a899555f7",
+        "android_client_info": {
+          "package_name": "com.example.htgdnss"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr63PK8-KAJUTLateG7OYm5LoTmo0B5cw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
