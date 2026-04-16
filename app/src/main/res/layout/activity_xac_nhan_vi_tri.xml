@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F7FA">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        app:title="Xác nhận vị trí GPS"
+        app:titleTextColor="#1A1A2E"
+        app:navigationIcon="@android:drawable/ic_media_previous"
+        app:navigationIconTint="#4A90E2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Map View -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Google Map Fragment placeholder -->
+                <org.osmdroid.views.MapView
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!-- Fallback text if map not loaded -->
+                <TextView
+                    android:id="@+id/tvMapPlaceholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="[Bản đồ GPS]"
+                    android:textColor="#AAAAAA"
+                    android:textSize="16sp"/>
+
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- GPS Error -->
+        <TextView
+            android:id="@+id/tvGpsError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="GPS chưa được bật!"
+            android:textColor="#E53935"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:visibility="gone"/>
+
+        <!-- Current location info -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViTri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vị trí hiện tại:"
+                    android:textSize="13sp"
+                    android:textColor="#888BA0"/>
+
+                <TextView
+                    android:id="@+id/tvViTri"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Đang xác định..."
+                    android:textSize="14sp"
+                    android:textColor="#1A1A2E"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnXacNhanViTri"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="16dp"
+            android:text="Xác nhận vị trí"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#4A90E2"
+            app:cornerRadius="10dp"/>
+
+    </LinearLayout>
+</LinearLayout>

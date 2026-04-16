@@ -1,13 +1,15 @@
-package com.example.htgdnss.model;
+package com.example.htgdnss.model; // Sửa package cho đồng bộ
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable { // Thêm Serializable
 
     private String productId;
     private String name;
     private String category;
     private String description;
     private double price;
-    private String unit; // kg, bó, thùng...
+    private String unit;
     private int stock;
     private String imageUrl;
     private String imageBase64;
@@ -22,32 +24,14 @@ public class Product {
     private long createdAt;
     private long updatedAt;
 
-    public Product(){}
+    public Product() {}
 
-    public Product(String productId, String name, String category, String description, double price, String unit,
-                   int stock, String imageUrl, String sellerId, String location, double latitude, double longitude,
-                   String farmingRegion, String farmingMethod, String certification, boolean inStock,
-                   long createdAt, long updatedAt) {
-        this.productId = productId;
-        this.name = name;
-        this.category = category;
-        this.description = description;
-        this.price = price;
-        this.unit = unit;
-        this.stock = stock;
-        this.imageUrl = imageUrl;
-        this.sellerId = sellerId;
-        this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.farmingRegion = farmingRegion;
-        this.farmingMethod = farmingMethod;
-        this.certification = certification;
-        this.inStock = inStock;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    // Thêm method format giá cho tiện
+    public String getPriceFormatted() {
+        return String.format("%,.0f đ/%s", price, unit != null ? unit : "");
     }
 
+    // Getters & Setters (giữ nguyên như file của bạn)
     public String getProductId() { return productId; }
     public void setProductId(String productId) { this.productId = productId; }
     public String getName() { return name; }
@@ -86,5 +70,4 @@ public class Product {
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
     public long getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(long updatedAt) { this.updatedAt = updatedAt; }
-
 }

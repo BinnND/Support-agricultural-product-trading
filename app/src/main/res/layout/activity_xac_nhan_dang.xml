@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F7FA">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:elevation="4dp"
+        app:title="Xác nhận và đăng"
+        app:titleTextColor="#1A1A2E"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="#4A90E2"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Product preview card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Ảnh + Tên -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/imgXacNhan"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="centerCrop"
+                            android:background="#E8EDF5"
+                            android:contentDescription="Ảnh sản phẩm"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:id="@+id/tvXacNhanTen"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Tên sản phẩm"
+                                android:textSize="17sp"
+                                android:textStyle="bold"
+                                android:textColor="#1A1A2E"/>
+
+                            <TextView
+                                android:id="@+id/tvXacNhanDanhMuc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Danh mục"
+                                android:textSize="13sp"
+                                android:textColor="#888BA0"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F0F0F0"
+                        android:layout_marginVertical="12dp"/>
+
+                    <!-- Giá -->
+                    <TextView
+                        android:id="@+id/tvXacNhanGia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Giá: 0 đ"
+                        android:textSize="15sp"
+                        android:textColor="#4A90E2"
+                        android:textStyle="bold"/>
+
+                    <!-- Đơn vị -->
+                    <TextView
+                        android:id="@+id/tvXacNhanDonVi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Đơn vị: kg"
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- Tồn kho -->
+                    <TextView
+                        android:id="@+id/tvXacNhanStock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tồn kho: 0"
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- Vị trí -->
+                    <TextView
+                        android:id="@+id/tvXacNhanViTri"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vị trí: Đang xác định..."
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- Chứng nhận -->
+                    <TextView
+                        android:id="@+id/tvXacNhanChungNhan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chứng nhận: Không có"
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- Vùng trồng -->
+                    <TextView
+                        android:id="@+id/tvXacNhanFarmingRegion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vùng trồng: Chưa có"
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- Phương pháp canh tác -->
+                    <TextView
+                        android:id="@+id/tvXacNhanFarmingMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Phương pháp: Chưa có"
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                    <!-- Mô tả -->
+                    <TextView
+                        android:id="@+id/tvXacNhanMoTa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mô tả: ..."
+                        android:textSize="14sp"
+                        android:textColor="#555770"
+                        android:layout_marginTop="6dp"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 2 nút: Quay lại và Đăng -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Quay lại"
+                    android:textSize="15sp"
+                    android:textColor="#4A90E2"
+                    app:backgroundTint="@android:color/transparent"
+                    app:strokeColor="#4A90E2"
+                    app:strokeWidth="1dp"
+                    app:cornerRadius="12dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDangSanPham"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="Đăng sản phẩm"
+                    android:textSize="15sp"
+                    android:textColor="#FFFFFF"
+                    app:backgroundTint="#4A90E2"
+                    app:cornerRadius="12dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ProgressBar loading -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateTint="#4A90E2"/>
+
+</LinearLayout>
