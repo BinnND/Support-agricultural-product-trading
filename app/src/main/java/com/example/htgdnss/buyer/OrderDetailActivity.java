@@ -35,12 +35,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
-
-        // 🔥 init firebase
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
-        // 🔥 ánh xạ view
         tvProducts = findViewById(R.id.tvProducts);
         tvTime = findViewById(R.id.tvTime);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
@@ -51,8 +47,6 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         btnCancel = findViewById(R.id.btnCancel);
         btnConfirm = findViewById(R.id.btnConfirm);
-
-        // 🔥 nhận data
         items = (List<CartAdapter.CartItem>) getIntent().getSerializableExtra("cart_list");
 
         if (items == null) items = new ArrayList<>();
@@ -136,11 +130,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             order.put("status", "pending");
             order.put("createdAt", now);
             order.put("updatedAt", now);
-
-            // 🔥 tạo order
             batch.set(db.collection("orders").document(orderId), order);
-
-            // 🔥 xóa cart
             batch.delete(
                     db.collection("carts")
                             .document(uid)
