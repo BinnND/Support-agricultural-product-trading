@@ -50,6 +50,7 @@
         <activity android:name=".buyer.ProductDetailActivity" />
         <activity android:name=".buyer.CartActivity" />
         <activity android:name=".buyer.MyOrdersBuyerActivity" />
+        <activity android:name=".buyer.OrderDetailActivity"/>
 
         <!-- Seller -->
         <activity android:name=".seller.AddProductActivity" />
@@ -61,6 +62,7 @@
 
         <!-- Admin -->
         <activity android:name=".admin.AdminDashboardActivity" />
+
 
         <!-- FCM Service -->
         <service

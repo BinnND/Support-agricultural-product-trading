@@ -1,5 +1,6 @@
 package com.example.htgdnss.buyer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -53,8 +54,11 @@ public class CartActivity extends AppCompatActivity {
 
         binding.rvCart.setLayoutManager(new LinearLayoutManager(this));
         binding.rvCart.setAdapter(adapter);
-
-        binding.btnCheckout.setOnClickListener(v -> checkout());
+        binding.btnCheckout.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrderDetailActivity.class);
+            intent.putExtra("cart_list", new ArrayList<>(items));
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -107,6 +111,7 @@ public class CartActivity extends AppCompatActivity {
 
     private void updateQty(CartAdapter.CartItem item, int newQty) {
         if (auth.getCurrentUser() == null) return;
+
         String uid = auth.getCurrentUser().getUid();
         final int qty = Math.max(newQty, 1);
 
@@ -119,11 +124,12 @@ public class CartActivity extends AppCompatActivity {
                 .update(data)
                 .addOnSuccessListener(v -> {
                     item.quantity = qty;
+                    adapter.notifyDataSetChanged();
                     updateTotal();
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Cập nhật thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Cập nhật thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
-
     private void removeItem(CartAdapter.CartItem item) {
         if (auth.getCurrentUser() == null) return;
         String uid = auth.getCurrentUser().getUid();
