@@ -59,9 +59,25 @@ dependencies {
     // Location & Images
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.analytics.impl)
 
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // camera
+    implementation ("androidx.camera:camera-core:1.3.3")
+    implementation ("androidx.camera:camera-camera2:1.3.3")
+    implementation ("androidx.camera:camera-lifecycle:1.3.3")
+    implementation ("androidx.camera:camera-view:1.3.3")
+    // osm
+    implementation ("org.osmdroid:osmdroid-android:6.1.16")
+    //gms
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
+    // gson
+    implementation ("com.google.code.gson:gson:2.10.1")
+
+
 }
