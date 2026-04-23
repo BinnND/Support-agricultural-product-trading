@@ -29,6 +29,8 @@
 
     <color name="text_primary">#1F1F1F</color>
     <color name="text_secondary">#666666</color>
+    <color name="bg_very_light_gray">#F5F5F5</color>
+
 
     <!-- Màu được dùng trong các layout cũ của bạn -->
     <color name="button_green">@color/green_primary</color>
