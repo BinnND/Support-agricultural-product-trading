@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.htgdnss.databinding.ItemCartBinding;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
 
-    public static class CartItem {
+    public static class CartItem implements Serializable {
         public String productId;
         public String name;
         public String imageUrl;
@@ -52,18 +53,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.VH> {
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         CartItem i = items.get(position);
+
         holder.binding.tvName.setText(nvl(i.name));
         holder.binding.tvPrice.setText(df.format(i.unitPrice) + " đ / " + nvl(i.unit));
-        holder.binding.edtQty.setText(String.valueOf(Math.max(i.quantity, 1)));
 
+        holder.binding.tvQuantity.setText(String.valueOf(Math.max(i.quantity, 1)));
+        // load ảnh
         if (!TextUtils.isEmpty(i.imageUrl)) {
-            Glide.with(holder.binding.ivImage.getContext()).load(i.imageUrl).centerCrop().into(holder.binding.ivImage);
+            Glide.with(holder.binding.ivImage.getContext())
+                    .load(i.imageUrl)
+                    .centerCrop()
+                    .into(holder.binding.ivImage);
         }
 
-        holder.binding.edtQty.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) return;
-            int qty = parseInt(holder.binding.edtQty.getText() == null ? "" : holder.binding.edtQty.getText().toString(), 1);
-            if (listener != null) listener.onQuantityChanged(i, qty);
+        holder.binding.btnPlus.setOnClickListener(v -> {
+            int newQty = i.quantity + 1;
+            if (listener != null) listener.onQuantityChanged(i, newQty);
+        });
+
+        holder.binding.btnMinus.setOnClickListener(v -> {
+            int newQty = i.quantity - 1;
+            if (newQty < 1) return;
+            if (listener != null) listener.onQuantityChanged(i, newQty);
         });
 
         holder.binding.btnRemove.setOnClickListener(v -> {

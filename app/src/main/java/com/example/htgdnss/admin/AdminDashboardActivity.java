@@ -8,18 +8,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.OrderAdapter;
+import com.example.htgdnss.buyer.MyOrdersBuyerActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityAdminDashboardBinding;
 import com.example.htgdnss.model.Order;
+import com.example.htgdnss.seller.AddProductActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
@@ -46,12 +46,30 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         // ✅ Nút thêm sản phẩm
         binding.btnAddProduct.setOnClickListener(v -> {
-            Toast.makeText(this, "Đi tới thêm sản phẩm", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, AddProductActivity.class));
         });
 
         // ✅ Nút đơn hàng
         binding.btnOrders.setOnClickListener(v -> {
-            Toast.makeText(this, "Đi tới danh sách đơn", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MyOrdersBuyerActivity.class));
+
+        });
+
+        // ✅ Bottom Navigation
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                return true;
+            } else if (id == R.id.nav_orders) {
+                Toast.makeText(this, "Trang đơn hàng", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+            }
+
+            return false;
         });
     }
 
@@ -72,7 +90,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         // ✅ Load doanh thu (demo)
         db.collection("orders").get()
                 .addOnSuccessListener(snaps -> {
-                    int total = snaps.size() * 100000; // giả lập
+                    int total = snaps.size() * 100000;
                     binding.tvRevenue.setText(total + " đ");
                 });
 
@@ -83,6 +101,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(snaps -> {
                     latestOrders.clear();
+
                     for (var doc : snaps.getDocuments()) {
                         Order o = doc.toObject(Order.class);
                         if (o != null) {
@@ -92,6 +111,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                             latestOrders.add(o);
                         }
                     }
+
                     adapter.notifyDataSetChanged();
                 });
     }

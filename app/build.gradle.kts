@@ -61,6 +61,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.play.services.maps)
     implementation(libs.play.services.analytics.impl)
+    implementation(libs.camera.view)
 
     // Testing
     testImplementation(libs.junit)
