@@ -72,7 +72,7 @@ public class HomeBuyerActivity extends AppCompatActivity {
         binding.edtSearch.setOnClickListener(v -> startActivity(new Intent(this, SearchActivity.class)));
         binding.tvTitle.setOnClickListener(v -> startActivity(new Intent(this, MyOrdersBuyerActivity.class)));
 
-        loadProducts();
+        // loadProducts() is already called in onResume()
     }
 
     @Override

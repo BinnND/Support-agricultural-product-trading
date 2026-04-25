@@ -20,15 +20,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     public interface OnProductClick {
         void onClick(Product product);
     }
+    public interface OnViewReviewsClick {
+        void onViewReviews(Product product);
+    }
 
     private final List<Product> items;
     private final OnProductClick onClick;
     private final DecimalFormat df = new DecimalFormat("#,###");
 
-    public ProductAdapter(List<Product> items, OnProductClick onClick) {
+    public ProductAdapter(List<Product> items, OnProductClick onClick, OnViewReviewsClick onViewReviewsClick) {
         this.items = items;
         this.onClick = onClick;
+        this.onViewReviewsClick = onViewReviewsClick;
     }
+
 
     @NonNull
     @Override

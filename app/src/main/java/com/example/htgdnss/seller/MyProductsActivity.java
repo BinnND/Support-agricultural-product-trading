@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityMyProductsBinding;
 import com.example.htgdnss.model.Product;
@@ -37,12 +38,21 @@ public class MyProductsActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        adapter = new ProductAdapter(products, p -> {
-            // For now, open detail like buyer (read-only).
-            Intent i = new Intent(this, com.example.htgdnss.buyer.ProductDetailActivity.class);
-            i.putExtra(com.example.htgdnss.buyer.ProductDetailActivity.EXTRA_PRODUCT_ID, p.getProductId());
-            startActivity(i);
+        adapter = new ProductAdapter(products,
+                p -> {
+                    // Xem chi tiết sản phẩm
+                    Intent i = new Intent(this, com.example.htgdnss.buyer.ProductDetailActivity.class);
+                    i.putExtra(com.example.htgdnss.buyer.ProductDetailActivity.EXTRA_PRODUCT_ID, p.getProductId());
+                    startActivity(i);
+                },
+                p -> {
+                    // Xem đánh giá của sản phẩm
+                    Intent intent = new Intent(this, ProductReviewsActivity.class);
+                    intent.putExtra("productId", p.getProductId());
+                    intent.putExtra("productName", p.getName());
+                    startActivity(intent);
         });
+
 
         binding.rvProducts.setLayoutManager(new LinearLayoutManager(this));
         binding.rvProducts.setAdapter(adapter);

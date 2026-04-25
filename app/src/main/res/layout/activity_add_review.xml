@@ -35,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:numStars="5"
-        android:stepSize="1" />
+        android:stepSize="1"
+        android:rating="0" />
 
     <TextView
         android:id="@+id/tvRatingHint"
