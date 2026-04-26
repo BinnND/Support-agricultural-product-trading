@@ -36,19 +36,35 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Review review = reviews.get(position);
+        if (reviews == null || position >= reviews.size()) {
+            return;
+        }
 
-        holder.tvBuyerName.setText(review.getBuyerName() != null ? review.getBuyerName() : "Ẩn danh");
+        Review review = reviews.get(position);
+        if (review == null) {
+            return;
+        }
+
+        // SET TEXT - MỖI TEXTVIEW CHỈ 1 LẦN
+        String buyerName = review.getBuyerName();
+        holder.tvBuyerName.setText(buyerName != null ? buyerName : "Ẩn danh");
+
         holder.tvStars.setText(getStarString(review.getStars()));
-        holder.tvContent.setText(review.getContent());
+
+        String content = review.getContent();
+        holder.tvContent.setText(content != null ? content : "");
+
         holder.tvTime.setText(dateFormat.format(new Date(review.getCreatedAt())));
 
-        if (review.getSellerReply() != null && !review.getSellerReply().isEmpty()) {
+        // XỬ LÝ PHẢN HỒI CỦA NGƯỜI BÁN
+        String sellerReply = review.getSellerReply();
+        if (sellerReply != null && !sellerReply.isEmpty()) {
             holder.tvSellerReply.setVisibility(View.VISIBLE);
-            holder.tvSellerReply.setText("Người bán: " + review.getSellerReply());
+            holder.tvSellerReply.setText("Người bán: " + sellerReply);
         } else {
             holder.tvSellerReply.setVisibility(View.GONE);
         }
+
     }
 
     private String getStarString(int stars) {
@@ -68,11 +84,19 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tvBuyerName = itemView.findViewById(R.id.tvBuyerName);
             tvStars = itemView.findViewById(R.id.tvStars);
             tvContent = itemView.findViewById(R.id.tvContent);
             tvTime = itemView.findViewById(R.id.tvTime);
             tvSellerReply = itemView.findViewById(R.id.tvSellerReply);
+
+            if (tvBuyerName == null) android.util.Log.e("ReviewAdapter", "tvBuyerName is null");
+            if (tvStars == null) android.util.Log.e("ReviewAdapter", "tvStars is null");
+            if (tvContent == null) android.util.Log.e("ReviewAdapter", "tvContent is null");
+            if (tvTime == null) android.util.Log.e("ReviewAdapter", "tvTime is null");
+            if (tvSellerReply == null) android.util.Log.e("ReviewAdapter", "tvSellerReply is null");
+
         }
     }
 }

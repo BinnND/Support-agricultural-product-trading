@@ -42,65 +42,37 @@ public class XacNhanDangActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Nhận dữ liệu sản phẩm từ Intent
         productDang = (Product) getIntent().getSerializableExtra("product");
         if (productDang == null) {
             productDang = new Product();
         }
 
         hienThiThongTin();
-
         binding.btnDangSanPham.setOnClickListener(v -> dangSanPham());
         binding.btnBack.setOnClickListener(v -> finish());
     }
 
     private void hienThiThongTin() {
-        // Tên sản phẩm
         binding.tvXacNhanTen.setText(productDang.getName() != null ? productDang.getName() : "Chưa có");
-
-        // Danh mục
         binding.tvXacNhanDanhMuc.setText(productDang.getCategory() != null ? productDang.getCategory() : "Chưa có");
-
-        // Giá
         binding.tvXacNhanGia.setText(String.format("Giá: %s đ", df.format(productDang.getPrice())));
-
-        // Đơn vị
-        binding.tvXacNhanDonVi.setText(String.format("Đơn vị: %s",
-                productDang.getUnit() != null ? productDang.getUnit() : "Chưa có"));
-
-        // Tồn kho
+        binding.tvXacNhanDonVi.setText(String.format("Đơn vị: %s", productDang.getUnit() != null ? productDang.getUnit() : "Chưa có"));
         binding.tvXacNhanStock.setText(String.format("Tồn kho: %d", productDang.getStock()));
 
-        // Vị trí
         String viTri = productDang.getLocation();
         if (viTri != null && !viTri.isEmpty()) {
             binding.tvXacNhanViTri.setText(String.format("Vị trí: %s", viTri));
         } else if (productDang.getLatitude() != 0 || productDang.getLongitude() != 0) {
-            binding.tvXacNhanViTri.setText(String.format("Vị trí: %.4f, %.4f",
-                    productDang.getLatitude(), productDang.getLongitude()));
+            binding.tvXacNhanViTri.setText(String.format("Vị trí: %.4f, %.4f", productDang.getLatitude(), productDang.getLongitude()));
         } else {
             binding.tvXacNhanViTri.setText("Vị trí: Chưa có");
         }
 
-        // Mô tả
-        binding.tvXacNhanMoTa.setText(String.format("Mô tả: %s",
-                productDang.getDescription() != null && !productDang.getDescription().isEmpty()
-                        ? productDang.getDescription() : "Không có"));
+        binding.tvXacNhanMoTa.setText(String.format("Mô tả: %s", productDang.getDescription() != null && !productDang.getDescription().isEmpty() ? productDang.getDescription() : "Không có"));
+        binding.tvXacNhanChungNhan.setText(String.format("Chứng nhận: %s", productDang.getCertification() != null && !productDang.getCertification().isEmpty() ? productDang.getCertification() : "Không có"));
+        binding.tvXacNhanFarmingRegion.setText(String.format("Vùng trồng: %s", productDang.getFarmingRegion() != null ? productDang.getFarmingRegion() : "Chưa có"));
+        binding.tvXacNhanFarmingMethod.setText(String.format("Phương pháp: %s", productDang.getFarmingMethod() != null ? productDang.getFarmingMethod() : "Chưa có"));
 
-        // Chứng nhận
-        binding.tvXacNhanChungNhan.setText(String.format("Chứng nhận: %s",
-                productDang.getCertification() != null && !productDang.getCertification().isEmpty()
-                        ? productDang.getCertification() : "Không có"));
-
-        // Vùng trồng
-        binding.tvXacNhanFarmingRegion.setText(String.format("Vùng trồng: %s",
-                productDang.getFarmingRegion() != null ? productDang.getFarmingRegion() : "Chưa có"));
-
-        // Phương pháp canh tác
-        binding.tvXacNhanFarmingMethod.setText(String.format("Phương pháp: %s",
-                productDang.getFarmingMethod() != null ? productDang.getFarmingMethod() : "Chưa có"));
-
-        // Hiển thị ảnh
         hienThiAnh();
     }
 
@@ -129,7 +101,6 @@ public class XacNhanDangActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra dữ liệu bắt buộc
         if (productDang.getName() == null || productDang.getName().isEmpty()) {
             Toast.makeText(this, "Vui lòng nhập tên sản phẩm", Toast.LENGTH_SHORT).show();
             return;
@@ -142,7 +113,6 @@ public class XacNhanDangActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        // Tạo ID sản phẩm nếu chưa có
         if (productDang.getProductId() == null || productDang.getProductId().isEmpty()) {
             productDang.setProductId(UUID.randomUUID().toString());
         }
@@ -150,7 +120,6 @@ public class XacNhanDangActivity extends AppCompatActivity {
         String sellerId = auth.getCurrentUser().getUid();
         long now = System.currentTimeMillis();
 
-        // Tạo Map để lưu vào Firestore
         Map<String, Object> productMap = new HashMap<>();
         productMap.put("productId", productDang.getProductId());
         productMap.put("name", productDang.getName());
@@ -178,11 +147,8 @@ public class XacNhanDangActivity extends AppCompatActivity {
                     setLoading(false);
                     Toast.makeText(this, "Đã đăng sản phẩm thành công!", Toast.LENGTH_SHORT).show();
 
-                    // Chuyển đến màn hình danh sách sản phẩm
-                    Intent intent = new Intent(this, MyProductsActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                    // ✅ SỬA: Chuyển về trang chủ theo role
+                    navigateToHomeByRole();
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
@@ -190,10 +156,43 @@ public class XacNhanDangActivity extends AppCompatActivity {
                 });
     }
 
+    // ✅ THÊM PHƯƠNG THỨC NÀY
+    private void navigateToHomeByRole() {
+        String uid = auth.getCurrentUser().getUid();
+
+        db.collection("users").document(uid).get()
+                .addOnSuccessListener(doc -> {
+                    String role = doc.getString("role");
+                    Intent intent;
+
+                    if ("seller".equals(role)) {
+                        // Người bán -> về MyProductsActivity
+                        intent = new Intent(this, com.example.htgdnss.seller.MyProductsActivity.class);
+                    } else if ("admin".equals(role)) {
+                        // Admin -> về AdminDashboardActivity
+                        intent = new Intent(this, com.example.htgdnss.admin.AdminDashboardActivity.class);
+                    } else {
+                        // Buyer -> về HomeBuyerActivity
+                        intent = new Intent(this, com.example.htgdnss.buyer.HomeBuyerActivity.class);
+                    }
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    // Nếu không lấy được role, mặc định về login
+                    Intent intent = new Intent(this, com.example.htgdnss.auth.LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                });
+    }
+
     private void setLoading(boolean loading) {
-        binding.toolbar.setVisibility(loading ? View.VISIBLE : View.GONE);
         binding.btnDangSanPham.setEnabled(!loading);
         binding.btnBack.setEnabled(!loading);
+        binding.btnDangSanPham.setText(loading ? "Đang đăng..." : "Đăng sản phẩm");
     }
 
     @Override

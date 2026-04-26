@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.databinding.ActivitySearchBinding;
 import com.example.htgdnss.model.Product;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,11 +35,21 @@ public class SearchActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        adapter = new ProductAdapter(results, product -> {
-            Intent i = new Intent(this, ProductDetailActivity.class);
-            i.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, product.getProductId());
-            startActivity(i);
-        });
+        adapter = new ProductAdapter(results,
+                product -> {
+                    // Click vào sản phẩm -> xem chi tiết
+                    Intent i = new Intent(this, ProductDetailActivity.class);
+                    i.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, product.getProductId());
+                    startActivity(i);
+                },
+                product -> {
+                    // Click vào nút xem đánh giá
+                    Intent intent = new Intent(this, ProductReviewsActivity.class);
+                    intent.putExtra("productId", product.getProductId());
+                    intent.putExtra("productName", product.getName());
+                    startActivity(intent);
+                }
+        );
 
         binding.rvResults.setLayoutManager(new LinearLayoutManager(this));
         binding.rvResults.setAdapter(adapter);

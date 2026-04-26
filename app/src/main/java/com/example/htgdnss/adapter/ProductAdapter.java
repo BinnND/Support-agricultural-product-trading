@@ -20,12 +20,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     public interface OnProductClick {
         void onClick(Product product);
     }
+
     public interface OnViewReviewsClick {
         void onViewReviews(Product product);
     }
 
     private final List<Product> items;
     private final OnProductClick onClick;
+    private final OnViewReviewsClick onViewReviewsClick;
     private final DecimalFormat df = new DecimalFormat("#,###");
 
     public ProductAdapter(List<Product> items, OnProductClick onClick, OnViewReviewsClick onViewReviewsClick) {
@@ -33,7 +35,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
         this.onClick = onClick;
         this.onViewReviewsClick = onViewReviewsClick;
     }
-
 
     @NonNull
     @Override
@@ -56,15 +57,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
         } else if (p.getImageBase64() != null && !p.getImageBase64().isEmpty()) {
             try {
                 byte[] bytes = Base64.decode(p.getImageBase64(), Base64.DEFAULT);
-                // Sửa ivImage thành ivProduct
                 Glide.with(holder.binding.ivProduct.getContext()).load(bytes).centerCrop().into(holder.binding.ivProduct);
             } catch (Exception ignored) {
             }
         }
 
+        // Click vào toàn bộ item -> xem chi tiết
         holder.binding.getRoot().setOnClickListener(v -> {
             if (onClick != null) onClick.onClick(p);
         });
+
+        // ✅ THÊM CODE XỬ LÝ NÚT XEM ĐÁNH GIÁ
+        if (holder.binding.btnViewReviews != null) {
+            holder.binding.btnViewReviews.setOnClickListener(v -> {
+                if (onViewReviewsClick != null) onViewReviewsClick.onViewReviews(p);
+            });
+        }
     }
 
     @Override

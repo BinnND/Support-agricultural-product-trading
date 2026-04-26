@@ -34,7 +34,7 @@
         android:theme="@style/Theme.Htgdnss"
         tools:targetApi="31">
         <activity
-            android:name=".common.ProductReviewActivity"
+            android:name=".common.ProductReviewsActivity"
             android:exported="false" />
         <activity
             android:name=".seller.ReplyToReviewActivity"

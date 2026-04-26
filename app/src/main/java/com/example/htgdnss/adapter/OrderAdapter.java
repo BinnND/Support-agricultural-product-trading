@@ -48,6 +48,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.VH> {
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Order o = items.get(position);
+
         holder.binding.tvName.setText(nvl(o.getProductName()));
         holder.binding.tvStatus.setText("Trạng thái: " + getStatusText(o.getStatus()));
         holder.binding.tvTotal.setText("Tổng: " + df.format(o.getTotalPrice()) + " đ");
