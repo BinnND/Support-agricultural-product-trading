@@ -1,5 +1,6 @@
 package com.example.htgdnss.buyer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -35,7 +36,12 @@ public class MyOrdersBuyerActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        adapter = new OrderAdapter(orders, order -> cancelOrder(order));
+        // SỬA: Truyền 2 listener
+        adapter = new OrderAdapter(orders,
+                this::cancelOrder,   // Hủy đơn
+                this::reviewOrder    // Đánh giá
+        );
+
         binding.rvOrders.setLayoutManager(new LinearLayoutManager(this));
         binding.rvOrders.setAdapter(adapter);
     }
@@ -63,7 +69,9 @@ public class MyOrdersBuyerActivity extends AppCompatActivity {
                     for (var doc : snaps.getDocuments()) {
                         Order o = doc.toObject(Order.class);
                         if (o != null) {
-                            if (o.getOrderId() == null || o.getOrderId().isEmpty()) o.setOrderId(doc.getId());
+                            if (o.getOrderId() == null || o.getOrderId().isEmpty()) {
+                                o.setOrderId(doc.getId());
+                            }
                             orders.add(o);
                         }
                     }
@@ -85,7 +93,22 @@ public class MyOrdersBuyerActivity extends AppCompatActivity {
                 .addOnSuccessListener(v -> {
                     order.setStatus("cancelled");
                     adapter.notifyDataSetChanged();
+                    Toast.makeText(this, "Đã hủy đơn hàng", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Hủy thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+    }
+
+    // PHƯƠNG THỨC ĐÁNH GIÁ
+    private void reviewOrder(Order order) {
+        if (order == null || order.getOrderId() == null) return;
+
+        if (!"done".equals(order.getStatus())) {
+            Toast.makeText(this, "Chỉ có thể đánh giá sau khi đơn hàng hoàn thành", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, AddReviewActivity.class);
+        intent.putExtra("order", order);
+        startActivity(intent);
     }
 }

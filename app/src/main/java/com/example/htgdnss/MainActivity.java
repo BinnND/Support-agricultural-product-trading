@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // Hiển thị layout để tránh màn hình đen
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -25,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null) {
             // Chưa đăng nhập → chuyển sang Login
             startActivity(new Intent(this, com.example.htgdnss.auth.LoginActivity.class));
+            finish(); // Kết thúc MainActivity sau khi đã chuyển
         } else {
             // Đã đăng nhập → kiểm tra role và chuyển màn hình tương ứng
             checkUserRole(currentUser.getUid());
         }
-        finish(); // Đóng MainActivity sau khi chuyển
     }
 
     private void checkUserRole(String uid) {
@@ -38,30 +39,29 @@ public class MainActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String role = documentSnapshot.getString("role");
-
                         Intent intent;
-                        switch (role) {
-                            case "seller":
-                                intent = new Intent(MainActivity.this, com.example.htgdnss.seller.MyProductsActivity.class);
-                                break;
-                            case "admin":
-                                intent = new Intent(MainActivity.this, com.example.htgdnss.admin.AdminDashboardActivity.class);
-                                break;
-                            default: // buyer
-                                intent = new Intent(MainActivity.this, com.example.htgdnss.buyer.HomeBuyerActivity.class);
-                                break;
+                        if ("seller".equals(role)) {
+                            intent = new Intent(MainActivity.this, com.example.htgdnss.seller.MyProductsActivity.class);
+                        } else if ("admin".equals(role)) {
+                            intent = new Intent(MainActivity.this, com.example.htgdnss.admin.AdminDashboardActivity.class);
+                        } else {
+                            intent = new Intent(MainActivity.this, com.example.htgdnss.buyer.HomeBuyerActivity.class);
                         }
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        finish();
                     } else {
                         // Không tìm thấy user → logout và về login
                         mAuth.signOut();
                         startActivity(new Intent(MainActivity.this, com.example.htgdnss.auth.LoginActivity.class));
+                        finish();
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Lỗi mạng hoặc Firestore → về login
                     mAuth.signOut();
                     startActivity(new Intent(MainActivity.this, com.example.htgdnss.auth.LoginActivity.class));
+                    finish(); // Kết thúc MainActivity trong trường hợp lỗi
                 });
     }
 }

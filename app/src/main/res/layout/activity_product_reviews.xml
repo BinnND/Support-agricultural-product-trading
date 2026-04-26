@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
+
+    <!-- Toolbar - PHẢI CÓ ID NÀY -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:title="Đánh giá sản phẩm"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="?attr/homeAsUpIndicator" />
+
+    <!-- Tên sản phẩm - PHẢI CÓ ID NÀY -->
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="@android:color/white"
+        android:elevation="2dp" />
+
+    <!-- Phần điểm đánh giá trung bình -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@android:color/background_light"
+        android:layout_marginTop="4dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvAverageRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_orange_dark"
+                android:text="0.0" />
+
+            <TextView
+                android:id="@+id/tvStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="☆☆☆☆☆" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvReviewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="0 đánh giá" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:text="Từ khách hàng" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ProgressBar - PHẢI CÓ ID NÀY -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="visible" />
+
+    <!-- Thông báo khi không có đánh giá - PHẢI CÓ ID NÀY -->
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Chưa có đánh giá nào cho sản phẩm này"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:visibility="gone" />
+
+    <!-- Tiêu đề danh sách đánh giá -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="📝 Tất cả đánh giá"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="@android:color/white"
+        android:layout_marginTop="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvReviews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

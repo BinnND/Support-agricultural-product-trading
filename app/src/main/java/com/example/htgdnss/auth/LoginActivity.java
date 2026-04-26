@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                                         } else {
                                             intent = new Intent(LoginActivity.this, com.example.htgdnss.buyer.HomeBuyerActivity.class);
                                         }
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                     }

@@ -57,7 +57,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
 
     // Location & Images
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation(libs.play.services.maps)
     implementation(libs.play.services.analytics.impl)
@@ -75,8 +75,6 @@ dependencies {
     implementation ("androidx.camera:camera-view:1.3.3")
     // osm
     implementation ("org.osmdroid:osmdroid-android:6.1.16")
-    //gms
-    implementation ("com.google.android.gms:play-services-location:21.0.1")
     // gson
     implementation ("com.google.code.gson:gson:2.10.1")
 

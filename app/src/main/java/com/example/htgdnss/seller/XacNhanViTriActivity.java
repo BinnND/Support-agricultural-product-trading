@@ -52,7 +52,18 @@ public class XacNhanViTriActivity extends AppCompatActivity  {
         Configuration.getInstance().setUserAgentValue(getPackageName());
         Configuration.getInstance().setOsmdroidBasePath(getCacheDir());
         Configuration.getInstance().setOsmdroidTileCache(new File(getCacheDir(), "osmdroid"));
+        try {
+            Class.forName("org.osmdroid.config.Configuration").getMethod("setLogger", Class.forName("org.osmdroid.config.ILogger"))
+                    .invoke(null, new Object() {
+                        public void d(String tag, String message) {}
+                        public void i(String tag, String message) {}
+                        public void w(String tag, String message) {}
+                        public void e(String tag, String message) {}
+                    });
+        } catch (Exception ignored) {}
 
+        binding = ActivityXacNhanViTriBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         binding = ActivityXacNhanViTriBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -68,7 +79,7 @@ public class XacNhanViTriActivity extends AppCompatActivity  {
         }
 
         setupMap();
-        fusedClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
 
         binding.btnXacNhanViTri.setOnClickListener(v -> xacNhanViTri());
         xinQuyenViTri();
