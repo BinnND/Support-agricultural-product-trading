@@ -20,7 +20,7 @@
             app:titleTextColor="#FFFFFF"
             app:titleCentered="true"
             app:navigationIcon="@android:drawable/ic_menu_revert"
-            app:navigationIconTint="#FFFFFF"/>
+            app:navigationIconTint="#FFFFFF" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.tabs.TabLayout
@@ -31,7 +31,8 @@
         app:tabIndicatorColor="#1976D2"
         app:tabSelectedTextColor="#1976D2"
         app:tabTextColor="#757575"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        android:contentDescription="Danh mục chính" />
 
     <View
         android:id="@+id/divider1"
@@ -48,7 +49,8 @@
         app:tabIndicatorHeight="0dp"
         app:tabSelectedTextColor="#1976D2"
         app:tabTextColor="#9E9E9E"
-        app:layout_constraintTop_toBottomOf="@id/divider1" />
+        app:layout_constraintTop_toBottomOf="@id/divider1"
+        android:contentDescription="Danh mục phụ" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProducts"
@@ -68,7 +70,8 @@
         app:backgroundTint="#1976D2"
         app:tint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/recyclerViewProducts" />
+        app:layout_constraintTop_toTopOf="@id/recyclerViewProducts"
+        android:contentDescription="Mở giỏ hàng" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
@@ -77,7 +80,7 @@
         android:background="#FFFFFF"
         app:itemIconTint="@color/bottom_nav_colors"
         app:itemTextColor="@color/button_green"
-        app:menu="@color/bottom_nav_menu"
+        app:menu="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

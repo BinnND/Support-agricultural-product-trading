@@ -1,6 +1,8 @@
 package com.example.htgdnss.model;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
 
     private String orderId;
     private String buyerId;
@@ -18,13 +20,14 @@ public class Order {
     private String cancelReason;
     private long createdAt;
     private long updatedAt;
+    private boolean reviewed;
 
     public Order(){}
 
     public Order(String orderId, String buyerId, String sellerId, String productId, String productName,
                  String productImageUrl, double unitPrice, int quantity, double totalPrice,
                  String shippingName, String shippingPhone, String shippingAddress,
-                 String status, String cancelReason, long createdAt, long updatedAt) {
+                 String status, String cancelReason, long createdAt, long updatedAt, boolean reviewed) {
         this.orderId = orderId;
         this.buyerId = buyerId;
         this.sellerId = sellerId;
@@ -41,6 +44,7 @@ public class Order {
         this.cancelReason = cancelReason;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.reviewed = reviewed;
     }
 
     public String getOrderId() { return orderId; }
@@ -75,4 +79,7 @@ public class Order {
     public void setCreatedAt(long createdAt) { this.createdAt = createdAt; }
     public long getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(long updatedAt) { this.updatedAt = updatedAt; }
+
+    public boolean isReviewed() { return reviewed; }
+    public void setReviewed(boolean reviewed) { this.reviewed = reviewed; }
 }

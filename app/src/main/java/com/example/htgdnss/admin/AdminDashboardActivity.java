@@ -36,26 +36,33 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // RecyclerView
-        adapter = new OrderAdapter(latestOrders, order -> {
-            Toast.makeText(this, "Admin đang xem đơn", Toast.LENGTH_SHORT).show();
-        });
+        // SỬA: OrderAdapter cần 2 listener (hủy và đánh giá)
+        // Admin không cần hủy hay đánh giá, truyền null hoặc empty handler
+        adapter = new OrderAdapter(latestOrders,
+                order -> {
+                    // Admin xem đơn - không cho hủy
+                    Toast.makeText(this, "Admin đang xem đơn", Toast.LENGTH_SHORT).show();
+                },
+                order -> {
+                    // Admin không đánh giá
+                    Toast.makeText(this, "Admin không thể đánh giá đơn hàng", Toast.LENGTH_SHORT).show();
+                }
+        );
 
         binding.rvLatestOrders.setLayoutManager(new LinearLayoutManager(this));
         binding.rvLatestOrders.setAdapter(adapter);
 
-        // ✅ Nút thêm sản phẩm
+        // Nút thêm sản phẩm
         binding.btnAddProduct.setOnClickListener(v -> {
             startActivity(new Intent(this, AddProductActivity.class));
         });
 
-        // ✅ Nút đơn hàng
+        // Nút đơn hàng
         binding.btnOrders.setOnClickListener(v -> {
             startActivity(new Intent(this, MyOrdersBuyerActivity.class));
-
         });
 
-        // ✅ Bottom Navigation
+        // Bottom Navigation
         binding.bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
 
@@ -80,21 +87,20 @@ public class AdminDashboardActivity extends AppCompatActivity {
     }
 
     private void loadStatsAndLatest() {
-
-        // ✅ Load số đơn hàng
+        // Load số đơn hàng
         db.collection("orders").get()
                 .addOnSuccessListener(snaps -> {
                     binding.tvOrders.setText(String.valueOf(snaps.size()));
                 });
 
-        // ✅ Load doanh thu (demo)
+        // Load doanh thu (demo)
         db.collection("orders").get()
                 .addOnSuccessListener(snaps -> {
                     int total = snaps.size() * 100000;
                     binding.tvRevenue.setText(total + " đ");
                 });
 
-        // ✅ Load danh sách đơn gần đây
+        // Load danh sách đơn gần đây
         db.collection("orders")
                 .orderBy("createdAt", Query.Direction.DESCENDING)
                 .limit(20)

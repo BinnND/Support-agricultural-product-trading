@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityHomeBuyerBinding;
 import com.example.htgdnss.model.Product;
@@ -35,11 +36,21 @@ public class HomeBuyerActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        adapter = new ProductAdapter(products, product -> {
-            Intent i = new Intent(this, ProductDetailActivity.class);
-            i.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, product.getProductId());
-            startActivity(i);
-        });
+        adapter = new ProductAdapter(products,
+                product -> {
+                    // Click vào sản phẩm -> xem chi tiết
+                    Intent i = new Intent(this, ProductDetailActivity.class);
+                    i.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, product.getProductId());
+                    startActivity(i);
+                },
+                product -> {
+                    // Click vào nút xem đánh giá
+                    Intent intent = new Intent(this, ProductReviewsActivity.class);
+                    intent.putExtra("productId", product.getProductId());
+                    intent.putExtra("productName", product.getName());
+                    startActivity(intent);
+                }
+        );
 
         binding.rvProducts.setLayoutManager(new LinearLayoutManager(this));
         binding.rvProducts.setAdapter(adapter);
@@ -72,7 +83,7 @@ public class HomeBuyerActivity extends AppCompatActivity {
         binding.edtSearch.setOnClickListener(v -> startActivity(new Intent(this, SearchActivity.class)));
         binding.tvTitle.setOnClickListener(v -> startActivity(new Intent(this, MyOrdersBuyerActivity.class)));
 
-        loadProducts();
+        // loadProducts() is already called in onResume()
     }
 
     @Override
