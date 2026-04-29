@@ -1,6 +1,7 @@
 package com.example.htgdnss.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.util.Base64;
@@ -20,6 +21,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     public interface OnProductClick {
         void onClick(Product product);
     }
+    public interface OnDeleteClick {
+        void onDelete(Product product);
+    }
+
 
     public interface OnViewReviewsClick {
         void onViewReviews(Product product);
@@ -29,11 +34,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
     private final OnProductClick onClick;
     private final OnViewReviewsClick onViewReviewsClick;
     private final DecimalFormat df = new DecimalFormat("#,###");
+    private final OnDeleteClick onDeleteClick;
 
-    public ProductAdapter(List<Product> items, OnProductClick onClick, OnViewReviewsClick onViewReviewsClick) {
+
+    public ProductAdapter(List<Product> items, OnProductClick onClick,
+                          OnViewReviewsClick onViewReviewsClick, OnDeleteClick onDeleteClick) {
         this.items = items;
         this.onClick = onClick;
         this.onViewReviewsClick = onViewReviewsClick;
+        this.onDeleteClick = onDeleteClick;
     }
 
     @NonNull
@@ -67,10 +76,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
             if (onClick != null) onClick.onClick(p);
         });
 
-        // ✅ THÊM CODE XỬ LÝ NÚT XEM ĐÁNH GIÁ
+        // THÊM CODE XỬ LÝ NÚT XEM ĐÁNH GIÁ
         if (holder.binding.btnViewReviews != null) {
             holder.binding.btnViewReviews.setOnClickListener(v -> {
                 if (onViewReviewsClick != null) onViewReviewsClick.onViewReviews(p);
+            });
+        }
+        if (holder.binding.btnDelete != null) {
+            // Chỉ hiển thị nút xóa nếu có listener (Admin)
+            holder.binding.btnDelete.setVisibility(onDeleteClick != null ? View.VISIBLE : View.GONE);
+            holder.binding.btnDelete.setOnClickListener(v -> {
+                if (onDeleteClick != null) onDeleteClick.onDelete(p);
             });
         }
     }
@@ -88,6 +104,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
             this.binding = binding;
         }
     }
+
 
     private String buildMeta(Product p) {
         StringBuilder sb = new StringBuilder();

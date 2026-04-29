@@ -19,7 +19,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hi, Admin 👑"
+            android:text="Hi, Admin"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"/>
@@ -61,51 +61,58 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Đơn hàng"
+                            android:text="Tổng người dùng"
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/tvOrders"
+                            android:id="@+id/tvTotalUsers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="18sp"/>
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#4CAF50"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Doanh thu"
+                            android:text="Tổng đơn hàng"
                             android:textStyle="bold"/>
 
                         <TextView
-                            android:id="@+id/tvRevenue"
+                            android:id="@+id/tvTotalOrders"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0 đ"
-                            android:textSize="18sp"/>
+                            android:text="0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#4CAF50"/>
                     </LinearLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ACTION -->
+            <!-- QUẢN LÝ NGƯỜI DÙNG -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Chức năng quản trị"
+                android:layout_marginTop="20dp"
+                android:text="Quản lý hệ thống"
+                android:textSize="16sp"
                 android:textStyle="bold"/>
 
             <LinearLayout
@@ -115,38 +122,52 @@
                 android:layout_marginTop="8dp">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAddProduct"
+                    android:id="@+id/btnManageUsers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Thêm SP"
+                    android:text="Quản lý người dùng"
                     app:backgroundTint="#2E7D32"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    android:icon="@android:drawable/ic_menu_manage"/>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnOrders"
+                    android:id="@+id/btnManageOrders"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:text="Đơn hàng"
+                    android:text="Quản lý đơn hàng"
                     app:backgroundTint="#2E7D32"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white"
+                    android:icon="@android:drawable/ic_menu_agenda"/>
             </LinearLayout>
 
-            <!-- LIST -->
+            <!-- DANH SÁCH ĐƠN HÀNG GẦN ĐÂY -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="Đơn hàng gần đây"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
+                android:textSize="14sp"
+                android:textStyle="bold"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLatestOrders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false"/>
+
+            <TextView
+                android:id="@+id/tvEmptyOrders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Chưa có đơn hàng nào"
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:textColor="@android:color/darker_gray"/>
 
         </LinearLayout>
 
@@ -159,12 +180,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
-
         app:itemIconTint="@color/green_primary"
         app:itemTextColor="@color/green_primary"
-        app:itemRippleColor="@color/light_green_bg"
         app:labelVisibilityMode="labeled"
-
-        app:menu="@menu/bottom_menu"/>
+        app:menu="@menu/bottom_nav_menu_admin"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
