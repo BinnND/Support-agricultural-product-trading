@@ -37,18 +37,19 @@ public class SearchActivity extends AppCompatActivity {
 
         adapter = new ProductAdapter(results,
                 product -> {
-                    // Click vào sản phẩm -> xem chi tiết
+                    // Xem chi tiết sản phẩm
                     Intent i = new Intent(this, ProductDetailActivity.class);
                     i.putExtra(ProductDetailActivity.EXTRA_PRODUCT_ID, product.getProductId());
                     startActivity(i);
                 },
                 product -> {
-                    // Click vào nút xem đánh giá
+                    // Xem đánh giá
                     Intent intent = new Intent(this, ProductReviewsActivity.class);
                     intent.putExtra("productId", product.getProductId());
                     intent.putExtra("productName", product.getName());
                     startActivity(intent);
-                }
+                },
+                null  // Search không có quyền xóa
         );
 
         binding.rvResults.setLayoutManager(new LinearLayoutManager(this));

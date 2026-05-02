@@ -40,6 +40,13 @@
             android:layout_marginTop="4dp"
             android:textSize="14sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,6 +72,7 @@
                 android:text="Xóa"
                 android:backgroundTint="@android:color/holo_red_dark"
                 android:textColor="@android:color/white" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -1,4 +1,3 @@
-// UserManagementAdapter.java
 package com.example.htgdnss.adapter;
 
 import android.view.LayoutInflater;
@@ -44,12 +43,25 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
         holder.tvEmail.setText(user.getEmail());
         holder.tvName.setText(user.getFullName() != null ? user.getFullName() : "Chưa có tên");
         holder.tvPhone.setText(user.getPhone() != null ? user.getPhone() : "Chưa có SĐT");
-        holder.tvRole.setText("seller".equals(user.getRole()) ? "👨‍🌾 Người bán" : "👤 Người mua");
+        holder.tvRole.setText("seller".equals(user.getRole()) ? "Người bán" : "Người mua");
 
+        // HIỂN THỊ TRẠNG THÁI
         boolean isLocked = "locked".equals(user.getStatus());
+        holder.tvStatus.setVisibility(android.view.View.VISIBLE);
+
+        if (isLocked) {
+            holder.tvStatus.setText("Đã khóa");
+            holder.tvStatus.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_red_dark));
+        } else {
+            holder.tvStatus.setText("Hoạt động");
+            holder.tvStatus.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_green_dark));
+        }
+
+        //  NÚT KHÓA/MỞ KHÓA
         holder.btnLockUnlock.setText(isLocked ? "Mở khóa" : "Khóa");
-        holder.btnLockUnlock.setBackgroundColor(holder.itemView.getContext()
-                .getColor(isLocked ? android.R.color.holo_green_dark : android.R.color.holo_orange_dark));
+        holder.btnLockUnlock.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                holder.itemView.getContext().getColor(isLocked ? android.R.color.holo_green_dark : android.R.color.holo_orange_dark)
+        ));
 
         holder.btnLockUnlock.setOnClickListener(v -> {
             if (listener != null) listener.onLockUnlock(user);
@@ -66,7 +78,7 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvEmail, tvName, tvPhone, tvRole;
+        TextView tvEmail, tvName, tvPhone, tvRole, tvStatus;
         Button btnLockUnlock, btnDelete;
 
         ViewHolder(android.view.View itemView) {
@@ -75,6 +87,7 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
             tvName = itemView.findViewById(R.id.tvName);
             tvPhone = itemView.findViewById(R.id.tvPhone);
             tvRole = itemView.findViewById(R.id.tvRole);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
             btnLockUnlock = itemView.findViewById(R.id.btnLockUnlock);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }

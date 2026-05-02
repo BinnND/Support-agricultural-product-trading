@@ -49,6 +49,15 @@ public class LoginActivity extends AppCompatActivity {
                                 .addOnSuccessListener(doc -> {
                                     if (doc.exists()) {
                                         String role = doc.getString("role");
+                                        String status = doc.getString("status");
+
+                                        // KIỂM TRA TÀI KHOẢN CÓ BỊ KHÓA KHÔNG
+                                        if ("locked".equals(status)) {
+                                            Toast.makeText(this, "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ Admin.", Toast.LENGTH_LONG).show();
+                                            mAuth.signOut();
+                                            return;
+                                        }
+
                                         Intent intent;
                                         if ("seller".equals(role)) {
                                             intent = new Intent(LoginActivity.this, com.example.htgdnss.seller.MyProductsActivity.class);
@@ -57,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
                                         } else {
                                             intent = new Intent(LoginActivity.this, com.example.htgdnss.buyer.HomeBuyerActivity.class);
                                         }
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                     }

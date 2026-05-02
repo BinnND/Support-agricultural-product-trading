@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.buyer.ProductDetailActivity;
 import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityMyProductsBinding;
@@ -40,18 +42,33 @@ public class MyProductsActivity extends AppCompatActivity {
 
         adapter = new ProductAdapter(products,
                 p -> {
-                    // Xem chi tiết sản phẩm
                     Intent i = new Intent(this, com.example.htgdnss.buyer.ProductDetailActivity.class);
                     i.putExtra(com.example.htgdnss.buyer.ProductDetailActivity.EXTRA_PRODUCT_ID, p.getProductId());
                     startActivity(i);
                 },
                 p -> {
-                    // Xem đánh giá của sản phẩm
                     Intent intent = new Intent(this, ProductReviewsActivity.class);
                     intent.putExtra("productId", p.getProductId());
                     intent.putExtra("productName", p.getName());
                     startActivity(intent);
-        });
+                },
+                p -> {
+                    // Seller xóa sản phẩm của mình
+                    new AlertDialog.Builder(this)
+                            .setTitle("Xóa sản phẩm")
+                            .setMessage("Bạn có chắc muốn xóa " + p.getName() + "?")
+                            .setPositiveButton("Xóa", (dialog, which) -> {
+                                db.collection("products").document(p.getProductId()).delete()
+                                        .addOnSuccessListener(v -> {
+                                            products.remove(p);
+                                            adapter.notifyDataSetChanged();
+                                            Toast.makeText(this, "Đã xóa", Toast.LENGTH_SHORT).show();
+                                        });
+                            })
+                            .setNegativeButton("Hủy", null)
+                            .show();
+                }
+        );
 
 
         binding.rvProducts.setLayoutManager(new LinearLayoutManager(this));
