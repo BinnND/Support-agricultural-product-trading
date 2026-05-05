@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.OrderAdapter;
 import com.example.htgdnss.common.ProfileActivity;
+import com.example.htgdnss.common.SettingsActivity;
 import com.example.htgdnss.databinding.ActivityAdminDashboardBinding;
 import com.example.htgdnss.model.Order;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -74,6 +75,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+            }
+            else if (id == R.id.nav_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             }
             return false;

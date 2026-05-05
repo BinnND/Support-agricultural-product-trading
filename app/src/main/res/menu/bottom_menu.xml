@@ -20,4 +20,7 @@
         android:id="@+id/nav_orders"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="Đơn hàng"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Cài đặt" />
 </menu>

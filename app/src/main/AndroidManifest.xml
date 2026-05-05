@@ -34,6 +34,9 @@
         android:theme="@style/Theme.Htgdnss"
         tools:targetApi="31">
         <activity
+            android:name=".common.SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".admin.AdminProductsActivity"
             android:exported="false" />
         <activity

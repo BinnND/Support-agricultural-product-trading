@@ -14,6 +14,7 @@ import com.example.htgdnss.adapter.ProductAdapter;
 import com.example.htgdnss.buyer.ProductDetailActivity;
 import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
+import com.example.htgdnss.common.SettingsActivity;
 import com.example.htgdnss.databinding.ActivityMyProductsBinding;
 import com.example.htgdnss.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,6 +78,7 @@ public class MyProductsActivity extends AppCompatActivity {
         binding.btnAdd.setOnClickListener(v -> startActivity(new Intent(this, AddProductActivity.class)));
         binding.btnOrders.setOnClickListener(v -> startActivity(new Intent(this, ManageOrdersSellerActivity.class)));
         binding.btnProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        binding.btnSetting.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
     }
 
     @Override

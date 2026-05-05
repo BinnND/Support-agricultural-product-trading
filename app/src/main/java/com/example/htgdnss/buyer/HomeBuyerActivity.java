@@ -13,6 +13,7 @@ import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.ProductAdapter;
 import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
+import com.example.htgdnss.common.SettingsActivity;
 import com.example.htgdnss.databinding.ActivityHomeBuyerBinding;
 import com.example.htgdnss.model.Product;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -75,6 +76,10 @@ public class HomeBuyerActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MyOrdersBuyerActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                return true;
+            }
+            else if (id == R.id.nav_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             }
 
