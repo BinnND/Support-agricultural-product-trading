@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.OrderAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityMyOrdersBuyerBinding;
 import com.example.htgdnss.model.Order;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MyOrdersBuyerActivity extends AppCompatActivity {
+public class MyOrdersBuyerActivity extends BaseAuthActivity {
 
     private ActivityMyOrdersBuyerBinding binding;
     private FirebaseAuth auth;

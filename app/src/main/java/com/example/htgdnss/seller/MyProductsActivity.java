@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.buyer.ProductDetailActivity;
 import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MyProductsActivity extends AppCompatActivity {
+public class MyProductsActivity extends BaseAuthActivity {
 
     private ActivityMyProductsBinding binding;
     private FirebaseAuth auth;

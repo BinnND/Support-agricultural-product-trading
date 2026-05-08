@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.CartAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityCartBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends BaseAuthActivity {
 
     private ActivityCartBinding binding;
     private FirebaseAuth auth;

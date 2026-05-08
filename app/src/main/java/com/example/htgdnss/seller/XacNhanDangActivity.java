@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityXacNhanDangBinding;
 import com.example.htgdnss.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class XacNhanDangActivity extends AppCompatActivity {
+public class XacNhanDangActivity extends BaseAuthActivity {
 
     private ActivityXacNhanDangBinding binding;
     private Product productDang;
@@ -125,9 +126,38 @@ public class XacNhanDangActivity extends AppCompatActivity {
         String sellerId = auth.getCurrentUser().getUid();
         long now = System.currentTimeMillis();
 
-        uploadImageIfNeeded(sellerId, () -> saveProduct(sellerId, now));
+       // uploadImageIfNeeded(sellerId, () -> saveProduct(sellerId, now));
+        processImageToBase64(() -> saveProduct(sellerId, now));
     }
+    private void processImageToBase64(Runnable onReady) {
+        String imageUrl = productDang.getImageUrl();
+        if (imageUrl == null || imageUrl.trim().isEmpty() || imageUrl.startsWith("http")) {
+            onReady.run();
+            return;
+        }
 
+        try {
+            binding.btnDangSanPham.setText("Đang xử lý ảnh...");
+            Uri imageUri = Uri.parse(imageUrl);
+            java.io.InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeStream(inputStream);
+            int width = 500;
+            int height = (int) (bitmap.getHeight() * (500.0 / bitmap.getWidth()));
+            android.graphics.Bitmap resizedBitmap = android.graphics.Bitmap.createScaledBitmap(bitmap, width, height, true);
+            java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
+            resizedBitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 70, outputStream);
+            byte[] bytes = outputStream.toByteArray();
+            String base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
+            productDang.setImageBase64(base64Image);
+            productDang.setImageUrl("");
+            onReady.run();
+
+        } catch (Exception e) {
+            setLoading(false);
+            Toast.makeText(this, "Lỗi xử lý ảnh: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            onReady.run();
+        }
+    }
     private void uploadImageIfNeeded(String sellerId, Runnable onReady) {
         String imageUrl = productDang.getImageUrl();
         if (imageUrl == null || imageUrl.trim().isEmpty() || imageUrl.startsWith("http")) {

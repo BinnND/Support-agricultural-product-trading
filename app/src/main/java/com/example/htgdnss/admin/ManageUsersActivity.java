@@ -10,16 +10,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.UserManagementAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityManageUsersBinding;
 import com.example.htgdnss.model.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ManageUsersActivity extends AppCompatActivity {
+public class ManageUsersActivity extends BaseAuthActivity {
 
     private ActivityManageUsersBinding binding;
     private FirebaseFirestore db;
@@ -69,7 +73,7 @@ public class ManageUsersActivity extends AppCompatActivity {
                     userList.clear();
                     for (QueryDocumentSnapshot doc : snapshots) {
                         User user = doc.toObject(User.class);
-                        if (user != null && !"admin".equals(user.getRole())) {
+                        if (user != null && !"admin".equals(user.getRole()) && !"deleted".equals(user.getStatus())) {
                             userList.add(user);
                         }
                     }
@@ -87,7 +91,6 @@ public class ManageUsersActivity extends AppCompatActivity {
                     Toast.makeText(this, "Lỗi tải dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-
     private void toggleUserStatus(User user) {
         String currentUid = auth.getCurrentUser().getUid();
         if (currentUid.equals(user.getUid())) {
@@ -116,6 +119,7 @@ public class ManageUsersActivity extends AppCompatActivity {
                 .show();
     }
 
+    // ManageUsersActivity.java
     private void confirmDeleteUser(User user) {
         String currentUid = auth.getCurrentUser().getUid();
         if (currentUid.equals(user.getUid())) {
@@ -127,14 +131,21 @@ public class ManageUsersActivity extends AppCompatActivity {
                 .setTitle("Xóa tài khoản")
                 .setMessage("Bạn có chắc muốn xóa tài khoản " + user.getEmail() + "? Hành động này không thể hoàn tác.")
                 .setPositiveButton("Xóa", (dialog, which) -> {
-                    // Xóa user khỏi Firestore
+                    // Đánh dấu user là deleted
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("status", "deleted");
+                    updates.put("deletedAt", FieldValue.serverTimestamp());
+
                     db.collection("users").document(user.getUid())
-                            .delete()
+                            .update(updates)
                             .addOnSuccessListener(v -> {
-                                // Có thể xóa luôn tài khoản Firebase Auth (cần quyền admin)
                                 userList.remove(user);
                                 adapter.notifyDataSetChanged();
                                 Toast.makeText(this, "Đã xóa tài khoản", Toast.LENGTH_SHORT).show();
+
+                                if (userList.isEmpty()) {
+                                    binding.tvEmpty.setVisibility(View.VISIBLE);
+                                }
                             })
                             .addOnFailureListener(e ->
                                     Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());

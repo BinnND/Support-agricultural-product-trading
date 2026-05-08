@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityChupAnhBinding;
 import com.example.htgdnss.model.Product;
 
@@ -32,7 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class ChupAnhActivity extends AppCompatActivity implements SensorEventListener {
+public class ChupAnhActivity extends BaseAuthActivity implements SensorEventListener {
 
     private static final int PERMISSION_CAMERA = 101;
     private static final String FILE_PROVIDER_AUTH = "com.example.htgdnss.fileprovider";
