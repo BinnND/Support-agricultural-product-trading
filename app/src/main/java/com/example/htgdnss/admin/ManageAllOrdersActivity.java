@@ -1,6 +1,7 @@
 package com.example.htgdnss.admin;
 
 import android.os.Bundle;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.OrderAdapter;
+import com.example.htgdnss.buyer.OrderDetailActivity;
 import com.example.htgdnss.databinding.ActivityManageAllOrdersBinding;
 import com.example.htgdnss.model.Order;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,6 +45,12 @@ public class ManageAllOrdersActivity extends AppCompatActivity {
                 },
                 order -> {
                     Toast.makeText(this, "Admin không thể đánh giá", Toast.LENGTH_SHORT).show();
+                },
+                order -> {
+                    Intent intent = new Intent(this, OrderDetailActivity.class);
+                    intent.putExtra("order", order);
+                    intent.putExtra("read_only", true);
+                    startActivity(intent);
                 }
         );
 

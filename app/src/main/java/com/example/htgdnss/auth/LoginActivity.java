@@ -50,10 +50,11 @@ public class LoginActivity extends AppCompatActivity {
                                     if (doc.exists()) {
                                         String role = doc.getString("role");
                                         String status = doc.getString("status");
+                                        Boolean deleted = doc.getBoolean("deleted");
 
                                         // KIỂM TRA TÀI KHOẢN CÓ BỊ KHÓA KHÔNG
-                                        if ("locked".equals(status)) {
-                                            Toast.makeText(this, "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ Admin.", Toast.LENGTH_LONG).show();
+                                        if ("locked".equals(status) || Boolean.TRUE.equals(deleted)) {
+                                            Toast.makeText(this, "Tài khoản của bạn đã bị khóa hoặc đã ngừng hoạt động. Vui lòng liên hệ Admin.", Toast.LENGTH_LONG).show();
                                             mAuth.signOut();
                                             return;
                                         }
@@ -68,7 +69,14 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         startActivity(intent);
                                         finish();
+                                    } else {
+                                        Toast.makeText(this, "Tài khoản chưa có hồ sơ người dùng trong Firestore", Toast.LENGTH_LONG).show();
+                                        mAuth.signOut();
                                     }
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Không tải được hồ sơ: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    mAuth.signOut();
                                 });
                     } else {
                         Toast.makeText(this, "Email hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();

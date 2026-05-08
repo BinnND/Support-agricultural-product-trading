@@ -1,6 +1,7 @@
 package com.example.htgdnss.seller;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.example.htgdnss.databinding.ActivityXacNhanDangBinding;
 import com.example.htgdnss.model.Product;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -26,6 +29,7 @@ public class XacNhanDangActivity extends AppCompatActivity {
     private Product productDang;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
     private final DecimalFormat df = new DecimalFormat("#,###");
 
     @Override
@@ -41,6 +45,7 @@ public class XacNhanDangActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         productDang = (Product) getIntent().getSerializableExtra("product");
         if (productDang == null) {
@@ -119,6 +124,51 @@ public class XacNhanDangActivity extends AppCompatActivity {
 
         String sellerId = auth.getCurrentUser().getUid();
         long now = System.currentTimeMillis();
+
+        uploadImageIfNeeded(sellerId, () -> saveProduct(sellerId, now));
+    }
+
+    private void uploadImageIfNeeded(String sellerId, Runnable onReady) {
+        String imageUrl = productDang.getImageUrl();
+        if (imageUrl == null || imageUrl.trim().isEmpty() || imageUrl.startsWith("http")) {
+            onReady.run();
+            return;
+        }
+
+        Uri imageUri;
+        try {
+            imageUri = Uri.parse(imageUrl);
+        } catch (Exception e) {
+            onReady.run();
+            return;
+        }
+
+        binding.btnDangSanPham.setText("Đang tải ảnh...");
+        StorageReference imageRef = storage.getReference()
+                .child("products")
+                .child(sellerId)
+                .child(productDang.getProductId() + ".jpg");
+
+        imageRef.putFile(imageUri)
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful() && task.getException() != null) {
+                        throw task.getException();
+                    }
+                    return imageRef.getDownloadUrl();
+                })
+                .addOnSuccessListener(downloadUri -> {
+                    productDang.setImageUrl(downloadUri.toString());
+                    productDang.setImageBase64("");
+                    onReady.run();
+                })
+                .addOnFailureListener(e -> {
+                    setLoading(false);
+                    Toast.makeText(this, "Tải ảnh thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void saveProduct(String sellerId, long now) {
+        binding.btnDangSanPham.setText("Đang đăng...");
 
         Map<String, Object> productMap = new HashMap<>();
         productMap.put("productId", productDang.getProductId());
