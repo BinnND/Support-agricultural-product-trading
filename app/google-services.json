@@ -1,26 +1,37 @@
 {
   "project_info": {
-    "project_number": "909151572081",
-    "project_id": "apkn-2afab",
-    "storage_bucket": "apkn-2afab.firebasestorage.app"
+    "project_number": "445939527254",
+    "firebase_url": "https://hotrogiaodichnongsansach-default-rtdb.firebaseio.com",
+    "project_id": "hotrogiaodichnongsansach",
+    "storage_bucket": "hotrogiaodichnongsansach.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909151572081:android:b5fe28193636643f32cbd0",
+        "mobilesdk_app_id": "1:445939527254:android:c7bc4a38d79f1a899555f7",
         "android_client_info": {
           "package_name": "com.example.htgdnss"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "445939527254-ehcsg8kgik8pudj2l49bhfe73086p2bq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAOUMwzb1WFlQqQoBX4igVfMZe5kbNszTQ"
+          "current_key": "AIzaSyCr63PK8-KAJUTLateG7OYm5LoTmo0B5cw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445939527254-ehcsg8kgik8pudj2l49bhfe73086p2bq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

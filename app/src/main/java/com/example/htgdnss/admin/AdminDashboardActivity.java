@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.OrderAdapter;
+import com.example.htgdnss.buyer.OrderDetailActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityAdminDashboardBinding;
 import com.example.htgdnss.model.Order;
@@ -42,6 +43,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 },
                 order -> {
                     Toast.makeText(this, "Admin chỉ có quyền xem", Toast.LENGTH_SHORT).show();
+                },
+                order -> {
+                    Intent intent = new Intent(this, OrderDetailActivity.class);
+                    intent.putExtra("order", order);
+                    intent.putExtra("read_only", true);
+                    startActivity(intent);
                 }
         );
 

@@ -21,21 +21,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.VH> {
         void onCancel(Order order);
     }
 
-    // THÊM INTERFACE CHO ĐÁNH GIÁ
     public interface OnReviewClick {
         void onReview(Order order);
     }
 
+    public interface OnOrderClick {
+        void onOpen(Order order);
+    }
+
     private final List<Order> items;
     private final OnCancelClick onCancelClick;
-    private final OnReviewClick onReviewClick;  // THÊM
+    private final OnReviewClick onReviewClick;
+    private final OnOrderClick onOrderClick;
     private final DecimalFormat df = new DecimalFormat("#,###");
 
-    // SỬA CONSTRUCTOR - THÊM THAM SỐ onReviewClick
     public OrderAdapter(List<Order> items, OnCancelClick onCancelClick, OnReviewClick onReviewClick) {
+        this(items, onCancelClick, onReviewClick, null);
+    }
+
+    public OrderAdapter(List<Order> items, OnCancelClick onCancelClick, OnReviewClick onReviewClick, OnOrderClick onOrderClick) {
         this.items = items;
         this.onCancelClick = onCancelClick;
         this.onReviewClick = onReviewClick;
+        this.onOrderClick = onOrderClick;
     }
 
     @NonNull
@@ -47,28 +55,33 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Order o = items.get(position);
+        Order order = items.get(position);
 
-        holder.binding.tvName.setText(nvl(o.getProductName()));
-        holder.binding.tvStatus.setText("Trạng thái: " + getStatusText(o.getStatus()));
-        holder.binding.tvTotal.setText("Tổng: " + df.format(o.getTotalPrice()) + " đ");
+        holder.binding.tvName.setText(nvl(order.getProductName()));
+        holder.binding.tvStatus.setText("Trạng thái: " + getStatusText(order.getStatus()));
+        holder.binding.tvTotal.setText("SL: " + order.getQuantity() + " | Tổng: " + df.format(order.getTotalPrice()) + " đ");
 
-        if (!TextUtils.isEmpty(o.getProductImageUrl())) {
-            Glide.with(holder.binding.ivImage.getContext()).load(o.getProductImageUrl()).centerCrop().into(holder.binding.ivImage);
+        if (!TextUtils.isEmpty(order.getProductImageUrl())) {
+            Glide.with(holder.binding.ivImage.getContext()).load(order.getProductImageUrl()).centerCrop().into(holder.binding.ivImage);
+        } else {
+            holder.binding.ivImage.setImageDrawable(null);
         }
 
-        // Nút hủy đơn (chỉ hiển thị khi pending)
-        boolean canCancel = "pending".equals(o.getStatus());
-        holder.binding.btnCancel.setVisibility(canCancel ? View.VISIBLE : View.GONE);
-        holder.binding.btnCancel.setOnClickListener(v -> {
-            if (onCancelClick != null) onCancelClick.onCancel(o);
+        holder.itemView.setOnClickListener(v -> {
+            if (onOrderClick != null) onOrderClick.onOpen(order);
         });
 
-        // Nút đánh giá (chỉ hiển thị khi done)
-        boolean canReview = "done".equals(o.getStatus());
+        boolean canCancel = "pending".equals(order.getStatus());
+        holder.binding.btnCancel.setVisibility(canCancel ? View.VISIBLE : View.GONE);
+        holder.binding.btnCancel.setText("Hủy");
+        holder.binding.btnCancel.setOnClickListener(v -> {
+            if (onCancelClick != null) onCancelClick.onCancel(order);
+        });
+
+        boolean canReview = "done".equals(order.getStatus()) && !order.isReviewed();
         holder.binding.btnReview.setVisibility(canReview ? View.VISIBLE : View.GONE);
         holder.binding.btnReview.setOnClickListener(v -> {
-            if (onReviewClick != null) onReviewClick.onReview(o);
+            if (onReviewClick != null) onReviewClick.onReview(order);
         });
     }
 
@@ -98,7 +111,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.VH> {
         }
     }
 
-    private String nvl(String s) {
-        return s == null ? "" : s;
+    private String nvl(String value) {
+        return value == null ? "" : value;
     }
 }

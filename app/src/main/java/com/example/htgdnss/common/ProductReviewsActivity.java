@@ -11,9 +11,9 @@ import com.example.htgdnss.adapter.ReviewAdapter;
 import com.example.htgdnss.databinding.ActivityProductReviewsBinding;
 import com.example.htgdnss.model.Review;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProductReviewsActivity extends AppCompatActivity {
@@ -53,22 +53,23 @@ public class ProductReviewsActivity extends AppCompatActivity {
         binding.progressBar.setVisibility(View.VISIBLE);
 
         db.collection("reviews")
-                .whereEqualTo("productId", productId)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(snaps -> {
                     reviews.clear();
                     for (var doc : snaps.getDocuments()) {
                         Review r = doc.toObject(Review.class);
-                        if (r != null) {
+                        if (r != null && productId != null && productId.equals(r.getProductId())) {
                             reviews.add(r);
                         }
                     }
+                    Collections.sort(reviews, (a, b) -> Long.compare(b.getCreatedAt(), a.getCreatedAt()));
                     adapter.notifyDataSetChanged();
                     binding.progressBar.setVisibility(View.GONE);
 
                     if (reviews.isEmpty()) {
                         binding.tvEmpty.setVisibility(View.VISIBLE);
+                        binding.tvAverageRating.setText("0.0 ★");
+                        binding.tvReviewCount.setText("(0 đánh giá)");
                     } else {
                         binding.tvEmpty.setVisibility(View.GONE);
                         calculateAverage();

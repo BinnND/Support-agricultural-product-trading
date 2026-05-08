@@ -81,6 +81,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                 + "Chứng nhận: " + nvl(p.getCertification()) + "\n"
                 + "Địa điểm: " + nvl(p.getLocation()));
         binding.tvDescription.setText(nvl(p.getDescription()));
+        if (p.getStock() <= 0 || !p.isInStock()) {
+            binding.btnAddToCart.setEnabled(false);
+            binding.btnAddToCart.setText("Hết hàng");
+        } else {
+            binding.btnAddToCart.setEnabled(true);
+            binding.btnAddToCart.setText("Thêm vào giỏ");
+        }
 
         String url = p.getImageUrl();
         if (url != null && !url.isEmpty()) {
@@ -108,6 +115,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         } catch (Exception ignored) {
         }
         if (qty <= 0) qty = 1;
+        if (product.getStock() <= 0 || !product.isInStock()) {
+            Toast.makeText(this, "Sản phẩm đã hết hàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (qty > product.getStock()) {
+            Toast.makeText(this, "Chỉ còn " + product.getStock() + " sản phẩm", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         String uid = auth.getCurrentUser().getUid();
         String cartItemId = product.getProductId();
@@ -137,8 +152,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setLoading(boolean loading) {
-        binding.btnAddToCart.setEnabled(!loading);
-        binding.btnAddToCart.setText(loading ? "Đang xử lý…" : "Thêm vào giỏ");
+        boolean available = product == null || (product.getStock() > 0 && product.isInStock());
+        binding.btnAddToCart.setEnabled(!loading && available);
+        binding.btnAddToCart.setText(loading ? "Đang xử lý…" : (available ? "Thêm vào giỏ" : "Hết hàng"));
         binding.tilQty.setEnabled(!loading);
         binding.ivImage.setAlpha(loading ? 0.7f : 1f);
     }

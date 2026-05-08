@@ -57,6 +57,16 @@ public class AddReviewActivity extends AppCompatActivity {
             finish();
             return;
         }
+        if (!"done".equals(order.getStatus())) {
+            Toast.makeText(this, "Chỉ đánh giá được đơn hàng đã hoàn thành", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        if (order.isReviewed()) {
+            Toast.makeText(this, "Đơn hàng này đã được đánh giá", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         productId = order.getProductId();
         productName = order.getProductName();
@@ -77,6 +87,11 @@ public class AddReviewActivity extends AppCompatActivity {
     }
 
     private void submitReview() {
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(this, "Vui lòng đăng nhập", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // LẤY SỐ SAO TRỰC TIẾP TỪ RATINGBAR
         float rating = binding.ratingBar.getRating();
         int stars = (int) rating;
@@ -102,6 +117,11 @@ public class AddReviewActivity extends AppCompatActivity {
 
         String reviewId = UUID.randomUUID().toString();
         String buyerId = auth.getCurrentUser().getUid();
+        if (!buyerId.equals(order.getBuyerId())) {
+            setLoading(false);
+            Toast.makeText(this, "Bạn không có quyền đánh giá đơn hàng này", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String buyerEmail = auth.getCurrentUser().getEmail();
         String buyerName = buyerEmail != null ? buyerEmail.split("@")[0] : "Ẩn danh";
 
@@ -117,25 +137,31 @@ public class AddReviewActivity extends AppCompatActivity {
         review.put("createdAt", System.currentTimeMillis());
         review.put("repliedAt", 0);
 
-        db.collection("reviews").document(reviewId)
-                .set(review)
+        var orderRef = db.collection("orders").document(order.getOrderId());
+        var reviewRef = db.collection("reviews").document(reviewId);
+
+        db.runTransaction(transaction -> {
+                    var orderDoc = transaction.get(orderRef);
+                    Boolean reviewed = orderDoc.getBoolean("reviewed");
+                    String status = orderDoc.getString("status");
+                    String ownerId = orderDoc.getString("buyerId");
+
+                    if (!buyerId.equals(ownerId) || Boolean.TRUE.equals(reviewed) || !"done".equals(status)) {
+                        throw new IllegalStateException("Đơn hàng không còn đủ điều kiện đánh giá");
+                    }
+
+                    transaction.set(reviewRef, review);
+                    transaction.update(orderRef, "reviewed", true, "updatedAt", System.currentTimeMillis());
+                    return null;
+                })
                 .addOnSuccessListener(v -> {
-                    // Cập nhật trạng thái đã đánh giá cho đơn hàng
-                    db.collection("orders").document(order.getOrderId())
-                            .update("reviewed", true)
-                            .addOnSuccessListener(u -> {
-                                setLoading(false);
-                                Toast.makeText(this, "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            })
-                            .addOnFailureListener(e -> {
-                                setLoading(false);
-                                Toast.makeText(this, "Cập nhật đơn hàng thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
+                    setLoading(false);
+                    Toast.makeText(this, "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
-                    Toast.makeText(this, "Gửi đánh giá thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, e.getMessage() != null ? e.getMessage() : "Gửi đánh giá thất bại", Toast.LENGTH_SHORT).show();
                 });
     }
 

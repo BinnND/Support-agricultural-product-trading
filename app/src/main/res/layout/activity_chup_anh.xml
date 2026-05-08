@@ -67,6 +67,33 @@
             </FrameLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <LinearLayout
+            android:id="@+id/layoutSensors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp"
+            android:padding="12dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/tvLightStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ánh sáng: Đang kiểm tra..."
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvMotionStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Độ ổn định: Đang kiểm tra..."
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
