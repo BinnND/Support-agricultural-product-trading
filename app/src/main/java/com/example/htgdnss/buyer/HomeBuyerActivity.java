@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityHomeBuyerBinding;
@@ -21,7 +22,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeBuyerActivity extends AppCompatActivity {
+public class HomeBuyerActivity extends BaseAuthActivity {
 
     private ActivityHomeBuyerBinding binding;
     private FirebaseFirestore db;

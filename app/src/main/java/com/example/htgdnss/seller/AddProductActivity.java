@@ -11,12 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.htgdnss.R;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.model.Product;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity extends BaseAuthActivity {
 
     private TextInputEditText etTen, etGia, etDonVi, etChungNhan, etMoTa, etStock, etFarmingRegion, etFarmingMethod;
     private TextInputLayout tilTen, tilGia, tilDonVi, tilDanhMuc;

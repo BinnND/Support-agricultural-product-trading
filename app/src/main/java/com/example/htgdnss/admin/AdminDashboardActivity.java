@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.R;
 import com.example.htgdnss.adapter.OrderAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.buyer.OrderDetailActivity;
 import com.example.htgdnss.common.ProfileActivity;
 import com.example.htgdnss.databinding.ActivityAdminDashboardBinding;
@@ -21,7 +22,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminDashboardActivity extends AppCompatActivity {
+public class AdminDashboardActivity extends BaseAuthActivity {
 
     private ActivityAdminDashboardBinding binding;
     private FirebaseFirestore db;

@@ -6,11 +6,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityReplyToReviewBinding;
 import com.example.htgdnss.model.Review;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ReplyToReviewActivity extends AppCompatActivity {
+public class ReplyToReviewActivity extends BaseAuthActivity {
 
     private ActivityReplyToReviewBinding binding;
     private FirebaseFirestore db;

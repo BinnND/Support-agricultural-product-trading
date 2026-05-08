@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.databinding.ActivityXacNhanViTriBinding;
 import com.example.htgdnss.model.Product;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -33,7 +34,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class XacNhanViTriActivity extends AppCompatActivity  {
+public class XacNhanViTriActivity extends BaseAuthActivity {
 
     private static final int LOCATION_PERMISSION_CODE = 300;
 

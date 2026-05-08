@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.htgdnss.adapter.ProductAdapter;
+import com.example.htgdnss.auth.BaseAuthActivity;
 import com.example.htgdnss.buyer.ProductDetailActivity;
 import com.example.htgdnss.common.ProductReviewsActivity;
 import com.example.htgdnss.databinding.ActivityAdminProductsBinding;
@@ -19,7 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminProductsActivity extends AppCompatActivity {
+public class AdminProductsActivity extends BaseAuthActivity {
 
     private ActivityAdminProductsBinding binding;
     private FirebaseFirestore db;
